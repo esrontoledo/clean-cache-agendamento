@@ -5,6 +5,12 @@ export default async (resquest: NextApiRequest, response: NextApiResponse) => {
 
     let environment = getEnvironment().find(a => a.environment === environmentBody);
 
+    if (!environment) {
+        response.status(500).json({
+            error: 'Erro',
+        });
+    }
+
     response.status(200).json({
         mensagem: 'O cache foi limpo com sucesso.',
         environmentBody: environmentBody,
