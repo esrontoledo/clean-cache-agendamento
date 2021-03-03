@@ -3,21 +3,21 @@ import { NextApiRequest, NextApiResponse } from "next";
 const ambientes = ['hom', 'prd', 'rolbh', 'rolsp']
 
 export default async (resquest: NextApiRequest, response: NextApiResponse) => {
-    let ambiente = resquest.query.ambiente as string;
-    const ambientesEscolhido = populateAmbientes().find(a => a.name === ambiente);
-
-    if (!ambientesEscolhido) {
-        response.status(401).json({
-            error: `Ambiente não foi encontrado, por favor selecione um desses ambientes: (${ambientes.toString()})`
-        })
-    }
-
     try {
+        let ambiente = resquest.query.ambiente as string;
+        const ambientesEscolhido = populateAmbientes().find(a => a.name === ambiente);
+
+        if (!ambientesEscolhido) {
+            response.status(401).json({
+                error: `Ambiente não foi encontrado, por favor selecione um desses ambientes: (${ambientes.toString()})`
+            })
+        }
         await cleanCahe(ambientesEscolhido);
     }
-    catch {
+    catch (e) {
         response.status(500).json({
-            error: 'Erro ao limpar o cache'
+            error: 'Erro ao limpar o cache',
+            excecao: e
         });
     }
 
@@ -29,7 +29,7 @@ export default async (resquest: NextApiRequest, response: NextApiResponse) => {
 }
 
 
-const cleanCahe = async (ambienteEscolhido: {name: string, url: string}) => {
+const cleanCahe = async (ambienteEscolhido: { name: string, url: string }) => {
 
     for (let item = 0; item <= 80; item++) {
         const response = await fetch(ambienteEscolhido.url, {
