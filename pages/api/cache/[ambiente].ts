@@ -3,10 +3,10 @@ import { NextApiRequest, NextApiResponse } from "next";
 const ambientes = ['hom', 'prd', 'rolbh', 'rolsp']
 
 export default async (resquest: NextApiRequest, response: NextApiResponse) => {
-    try {
-        let ambiente = resquest.query.ambiente as string;
-        const ambientesEscolhido = populateAmbientes().find(a => a.name === ambiente);
 
+    let ambiente = resquest.query.ambiente as string;
+    const ambientesEscolhido = populateAmbientes().find(a => a.name === ambiente);
+    try {
         if (!ambientesEscolhido) {
             response.status(401).json({
                 error: `Ambiente não foi encontrado, por favor selecione um desses ambientes: (${ambientes.toString()})`
