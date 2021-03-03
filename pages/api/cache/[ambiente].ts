@@ -1,7 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
 
-const ambientes = ['hom', 'prd', 'rolbh', 'rolsp']
-
 export default async (resquest: NextApiRequest, response: NextApiResponse) => {
     let environmentBody = resquest.query.ambiente as string;
 
@@ -22,6 +20,9 @@ const clearCache = async () => {
 const getEnvironment = () => {
     return [
         { environment: 'hom', url: 'teste' },
+        { environment: 'prd', url: 'teste1' },
+        { environment: 'rolbh', url: 'teste2' },
+        { environment: 'rolsp', url: 'teste3' }
     ];
 }
 
