@@ -1,19 +1,19 @@
 import { NextApiRequest, NextApiResponse } from "next";
 
 export default async (resquest: NextApiRequest, response: NextApiResponse) => {
-    let environmentBody = resquest.query.ambiente as string;
+    // let environmentBody = resquest.query.ambiente as string;
 
-    const environments = getEnvironment();
+    // const environments = getEnvironment();
 
-    let environment = environments.find(a => a.environment === environmentBody);
+    // let environment = environments.find(a => a.environment === environmentBody);
 
-    await clearCache(environment);
+    await clearCache({environment: 'hom', url: 'http://ws-h.localiza.com/Operacoes/OP.Agendamento.API/api/util/limparCache?senha=AGENDAMENTO2019'});
 
     response.status(200).json({
         request: 'O cache foi limpo com sucesso.',
-        environmentBody: environmentBody,
-        environment: environment.environment,
-        environmentUrl: environment.url
+        environmentBody: 'hom',
+        environment: 'hom',
+        environmentUrl: 'http://ws-h.localiza.com/Operacoes/OP.Agendamento.API/api/util/limparCache?senha=AGENDAMENTO2019'
     });
 }
 
