@@ -3,12 +3,14 @@ import { NextApiRequest, NextApiResponse } from "next";
 export default async (resquest: NextApiRequest, response: NextApiResponse) => {
     let environmentBody = resquest.query.ambiente as string;
 
-    let environment = getEnvironment().find(a => a.environment === environmentBody); //erro 
+    const environments = getEnvironment();
+
+    let environment = environments.find(a => a.environment === environmentBody);
 
     await clearCache(environment);
 
     response.status(200).json({
-        mensagem: 'O cache foi limpo com sucesso.',
+        request: 'O cache foi limpo com sucesso.',
         environmentBody: environmentBody,
         environment: environment.environment,
         environmentUrl: environment.url
@@ -16,14 +18,12 @@ export default async (resquest: NextApiRequest, response: NextApiResponse) => {
 }
 
 const clearCache = async (environment: { environment: string, url: string }) => {
-    for (let item = 0; item <= 80; item++) {
-        const response = await fetch(environment.url, {
+    for (let item = 0; item <= 100; item++) {
+        await fetch(environment.url.toString(), {
             method: 'Get',
             credentials: 'include'
         });
-        const json = await response.json();
-
-        console.log(json, environment.url);
+        console.log(item)
     }
 }
 
